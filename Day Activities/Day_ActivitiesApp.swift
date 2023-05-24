@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct Day_ActivitiesApp: App {
+    @StateObject var store = ActivityStore()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            CreateActivityView(newActivityButtonAction: {})
+            ActivitiesView()
+                .environmentObject(store)
         }
     }
 }
