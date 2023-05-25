@@ -12,17 +12,22 @@ struct ActivitiesView: View {
     @FocusState var focus: Bool
     
     var body: some View {
-        VStack {
-            activityList
-                .overlay(alignment: .bottom) {
-                    CreateActivityView()
-                        .focused($focus)
-                }
-            
+        ZStack {
+            background
+            VStack(spacing: 0) {
+                activityList
+                NewActivityView()
+                    .focused($focus)
+            }
+            .onTapGesture {
+                focus = false
+            }
         }
-        .onTapGesture {
-            focus = false
-        }
+    }
+    
+    private var background: some View {
+        Color(uiColor: .secondarySystemBackground)
+            .ignoresSafeArea(.all)
     }
     
     var activityList: some View {
@@ -31,7 +36,6 @@ struct ActivitiesView: View {
                 CardView(activity: activity)
             }
         }
-        .scrollDismissesKeyboard(.automatic)
     }
 }
 

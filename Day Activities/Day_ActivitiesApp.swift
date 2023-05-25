@@ -12,7 +12,6 @@ struct Day_ActivitiesApp: App {
     @StateObject var store = ActivityStore()
     var body: some Scene {
         WindowGroup {
-//            CreateActivityView(newActivityButtonAction: {})
             ActivitiesView()
                 .environmentObject(store)
         }
