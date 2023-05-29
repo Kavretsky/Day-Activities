@@ -20,23 +20,30 @@ struct NewActivityView: View {
     var body: some View {
         ZStack(alignment: .top) {
             Divider()
+                .ignoresSafeArea()
             HStack {
                 newActivityForm
                 newActivityButton
             }
-            .padding(.vertical, 10)
+            .padding(.vertical, 7)
+            .padding(.leading, 12)
+            .padding(.trailing, 10)
         }
-        .gesture(dismissKeyboardGesture())
+//        .gesture(dismissKeyboardGesture())
     }
     
     var newActivityForm: some View {
         HStack(spacing: 0) {
             changeActivityTypeButton
             activityNameTextField
+                .onTapGesture {
+                    focusOnNameTextField = true
+                }
         }
-        .background(.white)
-        .clipShape(Capsule())
-        .padding(.leading, 15)
+        .background(Color(uiColor: .systemBackground), in: Capsule())
+        .clipped()
+//        .clipShape(Capsule())
+//        .padding(.leading, 15)
     }
     
     @ViewBuilder
@@ -44,19 +51,22 @@ struct NewActivityView: View {
         ZStack(alignment: .leading) {
             switch activityType {
             case .positive:
-                Text("\(activityType.description) activity...")
+//                Text("\(activityType.description, specifier: "%@") activity", comment: "textField prompt for positive activity")
+                Text("Positive activity", comment: "TextField prompt for positive activity")
+//                Text("\(activityType.description) activity...")
                     .foregroundColor(Color(uiColor: .systemGray3))
                     .font(.body)
                     .opacity(activityName.isEmpty ? 1 : 0)
                     .transition(.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity)))
                     
             case .negative:
-                Text("\(activityType.description) activity...")
+                Text("Negative activity", comment: "TextField prompt for negative activity")
                     .foregroundColor(Color(uiColor: .systemGray3))
                     .font(.body)
                     .opacity(activityName.isEmpty ? 1 : 0)
                     .transition(.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity)))
             }
+            
             TextField("", text: $activityName)
                 .focused($focusOnNameTextField)
         }
@@ -83,8 +93,8 @@ struct NewActivityView: View {
             }
                 
         }
-        .padding(.leading, 3)
-        .frame(width: 42, height: 38)
+        .padding(.bottom, 1)
+        .frame(width: 45, height: 38)
         .background(activityType.color)
     }
     
@@ -104,11 +114,16 @@ struct NewActivityView: View {
                 activityName = ""
             }
         } label: {
-            Label("", systemImage: "plus.circle.fill")
+            Image(systemName: "plus.circle.fill")
                 .font(.largeTitle)
                 .foregroundColor(.accentColor)
         }
         .disabled(!activityNameValidation)
+        .onTapGesture {
+            if !activityNameValidation {
+                focusOnNameTextField = true
+            }
+        }
     }
     
     private func dismissKeyboardGesture() -> some Gesture {

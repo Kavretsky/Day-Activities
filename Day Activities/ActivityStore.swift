@@ -86,15 +86,6 @@ final class ActivityStore: ObservableObject {
 }
 
 
-//extension DateFormatter {
-//    static var shortDate: DateFormatter = {
-//        let formatter = DateFormatter()
-//        formatter.locale = Locale(identifier: "en_US")
-//        formatter.dateStyle = .short
-//        formatter.timeStyle = .none
-//        return formatter
-//    }()
-//}
 
 extension DateComponents {
     func isSameDay(as other: DateComponents) -> Bool {

@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  Day Activities
+
+  Created by Nikolay Kavretsky on 29.05.2023.
+  
+*/
+
+/*TextField prompt for positive activity*/
+"Positive activity" = "Positive activity...";
+
+/*TextField prompt for negative activity*/
+"Negative activity" = "Negative activity...";

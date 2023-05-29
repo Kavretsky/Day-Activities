@@ -16,17 +16,17 @@ struct ActivitiesView: View {
             background
             VStack(spacing: 0) {
                 activityList
+                    .onTapGesture {
+                        focus = false
+                    }
                 NewActivityView()
                     .focused($focus)
-            }
-            .onTapGesture {
-                focus = false
             }
         }
     }
     
     private var background: some View {
-        Color(uiColor: .secondarySystemBackground)
+        Color(uiColor: .systemGray6)
             .ignoresSafeArea(.all)
     }
     
@@ -36,6 +36,9 @@ struct ActivitiesView: View {
                 CardView(activity: activity)
             }
         }
+        .background(Color(uiColor: .quaternarySystemFill))
+        .scrollContentBackground(.hidden)
+        
     }
 }
 
