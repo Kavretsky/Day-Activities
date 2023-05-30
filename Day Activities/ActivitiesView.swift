@@ -11,6 +11,8 @@ struct ActivitiesView: View {
     @EnvironmentObject var store: ActivityStore
     @FocusState var focus: Bool
     
+    let activitiesDate: Date = .now
+    
     var body: some View {
         ZStack {
             background
@@ -32,12 +34,19 @@ struct ActivitiesView: View {
     
     var activityList: some View {
         List {
-            ForEach(store.activities) { activity in
-                CardView(activity: activity)
+            Section {
+                ForEach(store.activities(for: .now)) { activity in
+                    CardView(activity: activity)
+                }
+            } header: {
+                Text("Activities", comment: "Activities list headline")
+                    .font(.headline)
+                    .foregroundColor(Color.black)
             }
         }
         .background(Color(uiColor: .quaternarySystemFill))
         .scrollContentBackground(.hidden)
+        
         
     }
 }

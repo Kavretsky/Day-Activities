@@ -11,3 +11,8 @@
 
 /*TextField prompt for negative activity*/
 "Negative activity" = "Negative activity...";
+
+/*"Activities list headline"*/
+"Activities" = "Activities";
+
+"Started at %@" = "Started at %@";

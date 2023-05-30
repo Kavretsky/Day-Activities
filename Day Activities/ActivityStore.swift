@@ -56,39 +56,31 @@ enum ActivityType {
 }
 
 final class ActivityStore: ObservableObject {
-    @Published var activities = [Activity]()
+    @Published private var activities = [Activity]()
     
-//    func activities(per date: Date) -> [Activity]? {
-//        let day = Calendar.current.dateComponents([.day, .month, .year], from: date)
-//        return activities.filter { Calendar.current.dateComponents(in: .current, from: $0.startDateTime).isSameDay(as: day) }
-//    }
-    
-//    var datesInHistory: [Date] {
-//        activities.reduce(into: Set<Date>) { partialResult, activity in
-//            partialResult.insert(activity.startDateTime)
-//        }
-//
-//
-//    }
     init() {
-        activities.append(Activity(id: 1, name: "Morning walking with dog afasf asnf asnf jknafs ", type: .negative, startDateTime: .now))
-        activities.append(Activity(id: 2, name: "Morning walking with dog afasf asnf asnf jknafs ", type: .positive, startDateTime: .now))
+        activities.append(Activity(id: 1, name: "Morning walking with dog afasf asnf asnf jknafs ", type: .negative, startDateTime: Date(timeIntervalSinceReferenceDate: 118800)))
+        activities.append(Activity(id: 2, name: "Morning walking with dog ", type: .positive, startDateTime: .now))
     }
     
     //MARK: Intent
     func addActivity(name: String, type: ActivityType) {
         let uniqueId = (activities.max(by: {$0.id < $1.id})?.id ?? 0) + 1
-        let activity = Activity(id: uniqueId, name: name, type: type, startDateTime: Date())
+        if let index = activities.firstIndex(where: { $0.id == (uniqueId - 1) }) {
+            activities[index].finishDateTime = .now
+        }
+        let activity = Activity(id: uniqueId, name: name, type: type, startDateTime: .now)
         activities.append(activity)
     }
     
+    func activities(for specificDate: Date) -> [Activity] {
+        activities.filter { $0.startDateTime.formatted(.dateTime.day().month().year()) == specificDate.formatted(.dateTime.day().month().year())
+        }
+    }
     
-}
-
-
-
-extension DateComponents {
-    func isSameDay(as other: DateComponents) -> Bool {
-        return self.year == other.year && self.month == other.month && self.day == other.day
+    var datesInHistory: Set<Date> {
+        activities.reduce(into: Set<Date>.init()) { partialResult, activity in
+            partialResult.insert(activity.startDateTime)
+        }
     }
 }

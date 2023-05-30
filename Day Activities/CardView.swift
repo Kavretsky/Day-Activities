@@ -15,7 +15,7 @@ struct CardView: View {
             Text(activity.name)
                 .font(.body)
             HStack {
-                Text(activity.startDateTime.formatted(.dateTime.hour().minute()))
+                activityTimeInterval
                     .font(.caption2)
                     .foregroundColor(.secondary)
                 Spacer()
@@ -25,11 +25,26 @@ struct CardView: View {
         }
     }
     
+    private var dateFormatStyle:  Date.FormatStyle {
+        Date.FormatStyle().hour().minute()
+    }
+    
+    @ViewBuilder
+    private var activityTimeInterval: some View {
+        if activity.finishDateTime != nil {
+            Text("\(activity.startDateTime.formatted(dateFormatStyle)) — \(activity.finishDateTime!.formatted(dateFormatStyle))")
+                .transition(.identity)
+        } else {
+            Text("Started at \(activity.startDateTime.formatted(dateFormatStyle))", comment: "Start time to current activity")
+                .transition(.identity)
+        }
+    }
+    
 }
 
 struct CardView_Previews: PreviewProvider {
+    static var store = ActivityStore()
     static var previews: some View {
-        ActivitiesView()
-            .environmentObject(ActivityStore())
+        CardView(activity: store.activities(for: .now).first!)
     }
 }
