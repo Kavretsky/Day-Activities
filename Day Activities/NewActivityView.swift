@@ -25,14 +25,13 @@ struct NewActivityView: View {
                 newActivityForm
                 newActivityButton
             }
-            .padding(.vertical, 7)
+            .padding(.vertical, 4)
             .padding(.leading, 12)
             .padding(.trailing, 10)
         }
-//        .gesture(dismissKeyboardGesture())
     }
     
-    var newActivityForm: some View {
+    private var newActivityForm: some View {
         HStack(spacing: 0) {
             changeActivityTypeButton
             activityNameTextField
@@ -42,8 +41,6 @@ struct NewActivityView: View {
         }
         .background(Color(uiColor: .systemBackground), in: Capsule())
         .clipped()
-//        .clipShape(Capsule())
-//        .padding(.leading, 15)
     }
     
     @ViewBuilder
@@ -51,9 +48,7 @@ struct NewActivityView: View {
         ZStack(alignment: .leading) {
             switch activityType {
             case .positive:
-//                Text("\(activityType.description, specifier: "%@") activity", comment: "textField prompt for positive activity")
                 Text("Positive activity", comment: "TextField prompt for positive activity")
-//                Text("\(activityType.description) activity...")
                     .foregroundColor(Color(uiColor: .systemGray3))
                     .font(.body)
                     .opacity(activityName.isEmpty ? 1 : 0)
@@ -94,7 +89,7 @@ struct NewActivityView: View {
                 
         }
         .padding(.bottom, 1)
-        .frame(width: 45, height: 38)
+        .frame(width: 45, height: 34)
         .background(activityType.color)
     }
     

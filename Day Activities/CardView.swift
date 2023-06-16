@@ -23,6 +23,7 @@ struct CardView: View {
                     .font(.subheadline)
             }
         }
+//        .background()
     }
     
     private var dateFormatStyle:  Date.FormatStyle {
@@ -46,5 +47,6 @@ struct CardView_Previews: PreviewProvider {
     static var store = ActivityStore()
     static var previews: some View {
         CardView(activity: store.activities(for: .now).first!)
+//            .scaledToFit()
     }
 }

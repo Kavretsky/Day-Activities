@@ -15,4 +15,17 @@
 /*"Activities list headline"*/
 "Activities" = "Activities";
 
+/*Start time to current activity*/
 "Started at %@" = "Started at %@";
+
+/*Start and finish time activity label*/
+"%@ — %@" = "%@ — %@";
+
+/*Header of edit activity view*/
+"Edit Activity" = "Edit Activity";
+
+/*Save activity changes button*/
+"Done" = "Done";
+
+/*Cancel activity changes button*/
+"Cancel" = "Cancel";

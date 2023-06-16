@@ -34,3 +34,9 @@ extension RGBAColor {
         self.init(red: Double(red), green: Double(green), blue: Double(blue), alpha: Double(alpha))
     }
 }
+
+extension Date {
+    func isSameDay(with comparingDate: Date) -> Bool {
+        self.formatted(.dateTime.day().month().year()) == comparingDate.formatted(.dateTime.day().month().year())
+    }
+}
