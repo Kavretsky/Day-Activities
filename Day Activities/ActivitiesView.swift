@@ -19,10 +19,14 @@ struct ActivitiesView: View {
             background
             VStack(spacing: 0) {
                 activityList
+                    .onTapGesture {
+                        focus = false
+                    }
                 NewActivityView()
                     .focused($focus)
             }
         }
+        
     }
     
     private var background: some View {
@@ -30,33 +34,16 @@ struct ActivitiesView: View {
             .ignoresSafeArea(.all)
     }
     
-    @State private var selectedActivityID: UUID?
-    
-    private var activityList2: some View {
-        List(store.activities(for: .now), selection: $selectedActivityID) { activity in
-            CardView(activity: activity)
-                
-        }
-        .onChange(of: selectedActivityID) { newValue in
-            if newValue != nil {
-                data = store.activities(for: date).first(where: {$0.id == newValue})?.data ?? .init()
-                isPresentingEditView = true
-            }
-        }
-    }
+    @State private var showTint = true
     
     private var activityList: some View {
-        List(selection: $activityToChange) {
+        List {
             Section {
                 ForEach(store.activities(for: .now)) { activity in
                     CardView(activity: activity)
-                        .background(.white)
                         .onTapGesture {
-                            print("tap")
                             activityToChange = activity
                             data = activity.data
-                            print(data)
-                            isPresentingEditView = true
                         }
                     
                 }
@@ -68,7 +55,7 @@ struct ActivitiesView: View {
         }
         .background(Color(uiColor: .quaternarySystemFill))
         .scrollContentBackground(.hidden)
-        .sheet(isPresented: $isPresentingEditView) {
+        .sheet(item: $activityToChange) { _ in
             NavigationView {
                 ActivityEditorView(data: $data)
                     .navigationTitle(Text("Edit Activity", comment: "Header of edit activity view"))
@@ -77,11 +64,8 @@ struct ActivitiesView: View {
                         doneToolbarItem
                         calcelToolbarItem
                     }
-
             }
         }
-        
-        
     }
     
     private var doneToolbarItem: some ToolbarContent {
@@ -91,30 +75,32 @@ struct ActivitiesView: View {
             } label: {
                 Text("Done", comment: "Save activity changes button")
             }
+            .disabled(!dataValidation)
         }
+    }
+    
+    private var dataValidation: Bool {
+        !data.name.isEmpty && data.startDateTime <= data.finishDateTime ?? .now
     }
     
     
     private var calcelToolbarItem: some ToolbarContent{
         ToolbarItem(placement: .cancellationAction) {
             Button("Cancel") {
-                isPresentingEditView = false
-                selectedActivityID = nil
-                print("cancel")
+                activityToChange = nil
             }
         }
     }
     
-    @State var isPresentingEditView: Bool = false
+
     @State var data = Activity.Data()
     @State private var activityToChange: Activity?
     
     private func doneAction() {
         guard let activity = activityToChange else { return }
-        isPresentingEditView = false
         store.updateActivity(activity, with: data)
         activityToChange = nil
-        data = .init()
+        
     }
 }
 

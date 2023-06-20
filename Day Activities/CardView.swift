@@ -23,7 +23,7 @@ struct CardView: View {
                     .font(.subheadline)
             }
         }
-//        .background()
+        .background(Color(uiColor: .secondarySystemGroupedBackground))
     }
     
     private var dateFormatStyle:  Date.FormatStyle {

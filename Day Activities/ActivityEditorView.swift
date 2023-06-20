@@ -11,55 +11,78 @@ struct ActivityEditorView: View {
     @Binding var data: Activity.Data
     @State var finishTime: Date = .now
     
+    @Namespace private var typeNamespaceID
+    
     
     var body: some View {
         Form {
             descriptionSection
-            startedAtSection
-            finishedAtSection
+            timingSection
         }
     }
     
     private var descriptionSection: some View {
         Section {
-            TextField("Description", text: $data.name, axis: .vertical)
-            Picker("Type", selection: $data.type) {
-                ForEach(ActivityType.allCases, id: \.self) { type in
-                    Text(type.label)
-                }
-            }
-            .pickerStyle(.wheel)
+            descriptionTextField
+            typeSelection
         }
     }
     
-    private var typeSection: some View {
-        Section {
-            Picker("Type", selection: $data.type) {
-                ForEach(ActivityType.allCases, id: \.self) { type in
-                    Text(type.label)
-                }
-            }
-        }
+    private var descriptionTextField: some View {
+        TextField("Description",
+                  text: $data.name,
+                  prompt: Text("Activity..."),
+                  axis: .vertical)
     }
     
-    private var startedAtSection: some View {
-        Section {
-            DatePicker("Started at", selection: $data.startDateTime, displayedComponents: .hourAndMinute)
+    private var typeSelection: some View {
+        HStack(spacing: 3) {
+            ForEach(ActivityType.allCases, id: \.self) { type in
+                Text(type.label)
+                    .font(.headline)
+                    .padding(7)
+                    .background {
+                        if type == data.type {
+                            Capsule()
+                                .fill(type.color)
+                                .offset(x: 0)
+                                .matchedGeometryEffect(id: "typeBackgroundID", in: typeNamespaceID)
+                        }
+                    }
+                    .zIndex(type == data.type ? 0 : 1)
+                    .onTapGesture {
+                        withAnimation {
+                            data.type = type
+                        }
+                    }
+                    .animation(Animation.interactiveSpring(), value: data.type)
+            }
         }
     }
     
     @ViewBuilder
-    private var finishedAtSection: some View {
+    private var timingSection: some View {
+        Section {
+            startTimeRow
+            finishTimeRow
+        }
+    }
+    
+    private var startTimeRow: some View {
+        DatePicker("Started at", selection: $data.startDateTime, displayedComponents: .hourAndMinute)
+    }
+    
+    @ViewBuilder
+    private var finishTimeRow: some View {
         if data.finishDateTime != nil {
-            Section {
-                DatePicker("Finished at", selection: $finishTime, displayedComponents: .hourAndMinute)
-            }
-            .onChange(of: finishTime) { newValue in
-                data.finishDateTime = finishTime
-            }
+            DatePicker("Finished at", selection: $finishTime, displayedComponents: .hourAndMinute)
+                .onChange(of: finishTime) { newValue in
+                    data.finishDateTime = finishTime
+                }
         } else {
-            Button("Finish") {
-                data.finishDateTime = .now
+            Button("Finish now") {
+                finishTime = .now
+                data.finishDateTime = finishTime
             }
         }
     }
