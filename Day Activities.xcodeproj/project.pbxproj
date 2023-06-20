@@ -10,7 +10,6 @@
 		7600C6F02A3F61130037AD44 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7600C6EF2A3F61130037AD44 /* ActivityType.swift */; };
 		765477912A1B875100F1EF3B /* ActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765477902A1B875100F1EF3B /* ActivityStore.swift */; };
 		765477972A1BBC9900F1EF3B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765477962A1BBC9900F1EF3B /* CardView.swift */; };
-		765DE7FF2A3A25A200C81B41 /* TestVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765DE7FE2A3A25A200C81B41 /* TestVIew.swift */; };
 		766084F62A2F5A58000046F1 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766084F52A2F5A58000046F1 /* Activity.swift */; };
 		766DB8862A195E8B0044A87B /* Day_ActivitiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DB8852A195E8B0044A87B /* Day_ActivitiesApp.swift */; };
 		766DB8882A195E8B0044A87B /* ActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DB8872A195E8B0044A87B /* ActivitiesView.swift */; };
@@ -27,7 +26,6 @@
 		7600C6EF2A3F61130037AD44 /* ActivityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityType.swift; sourceTree = "<group>"; };
 		765477902A1B875100F1EF3B /* ActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityStore.swift; sourceTree = "<group>"; };
 		765477962A1BBC9900F1EF3B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
-		765DE7FE2A3A25A200C81B41 /* TestVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVIew.swift; sourceTree = "<group>"; };
 		766084F52A2F5A58000046F1 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		766DB8822A195E8B0044A87B /* Day Activities.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day Activities.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766DB8852A195E8B0044A87B /* Day_ActivitiesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day_ActivitiesApp.swift; sourceTree = "<group>"; };
@@ -75,7 +73,6 @@
 				76C5C2A42A24FC12005308C2 /* Localizable.strings */,
 				766DB8852A195E8B0044A87B /* Day_ActivitiesApp.swift */,
 				766DB8872A195E8B0044A87B /* ActivitiesView.swift */,
-				765DE7FE2A3A25A200C81B41 /* TestVIew.swift */,
 				76876BF92A27D4E400FAB868 /* ActivityEditorView.swift */,
 				76B229232A1BF5170046B5E7 /* NewActivityView.swift */,
 				76B229252A1CBC400046B5E7 /* UserSettings.swift */,
@@ -172,7 +169,6 @@
 			files = (
 				765477912A1B875100F1EF3B /* ActivityStore.swift in Sources */,
 				76B229262A1CBC400046B5E7 /* UserSettings.swift in Sources */,
-				765DE7FF2A3A25A200C81B41 /* TestVIew.swift in Sources */,
 				76876BFA2A27D4E400FAB868 /* ActivityEditorView.swift in Sources */,
 				766DB8882A195E8B0044A87B /* ActivitiesView.swift in Sources */,
 				76B2292C2A1D39EA0046B5E7 /* Extensions.swift in Sources */,
