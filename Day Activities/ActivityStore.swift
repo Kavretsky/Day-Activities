@@ -24,6 +24,9 @@ final class ActivityStore: ObservableObject {
     
     //MARK: Intents
     func addActivity(name: String, type: ActivityType) {
+        if let index = activities.firstIndex(where: { $0.finishDateTime == nil }) {
+            activities[index].finishDateTime = .now
+        }
         let activity = Activity(name: name, type: type, startDateTime: .now)
         activities.append(activity)
     }
@@ -35,7 +38,8 @@ final class ActivityStore: ObservableObject {
     func updateActivity(_ activityToUpdate: Activity, with data: Activity.Data) {
         guard let index = activities.firstIndex(where: {$0.id == activityToUpdate.id}) else { return }
         guard data.startDateTime <= data.finishDateTime ?? data.startDateTime
-                && data.startDateTime.isSameDay(with: data.finishDateTime ?? data.startDateTime) else { return }
+                && data.startDateTime.isSameDay(with: data.finishDateTime ?? data.startDateTime)
+                && !data.name.isEmpty else { return }
         activities[index].update(from: data)
     }
     
