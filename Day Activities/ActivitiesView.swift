@@ -11,8 +11,7 @@ struct ActivitiesView: View {
     @EnvironmentObject var store: ActivityStore
     private var date: Date = .now
     @FocusState var focus: Bool
-    
-    let activitiesDate: Date = .now
+    @State private var activityToChange: Activity?
     
     var body: some View {
         ZStack {
@@ -34,18 +33,14 @@ struct ActivitiesView: View {
             .ignoresSafeArea(.all)
     }
     
-    @State private var showTint = true
-    
     private var activityList: some View {
         List {
             Section {
-                ForEach(store.activities(for: .now)) { activity in
+                ForEach(store.activities(for: date)) { activity in
                     CardView(activity: activity)
                         .onTapGesture {
                             activityToChange = activity
-                            data = activity.data
                         }
-                    
                 }
             } header: {
                 Text("Activities", comment: "Activities list headline")
@@ -56,55 +51,12 @@ struct ActivitiesView: View {
         .background(Color(uiColor: .quaternarySystemFill))
         .scrollContentBackground(.hidden)
         .sheet(item: $activityToChange) { _ in
-            NavigationView {
-                ActivityEditorView(data: $data)
-                    .navigationTitle(Text("Edit Activity", comment: "Header of edit activity view"))
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbar {
-                        doneToolbarItem
-                        calcelToolbarItem
-                    }
-            }
+            ActivityEditorView(activityToChange: $activityToChange)
         }
-    }
-    
-    private var doneToolbarItem: some ToolbarContent {
-        ToolbarItem(placement: .confirmationAction) {
-            Button {
-                doneAction()
-            } label: {
-                Text("Done", comment: "Save activity changes button")
-            }
-            .disabled(!dataValidation)
-        }
-    }
-    
-    private var dataValidation: Bool {
-        !data.name.isEmpty && data.startDateTime <= data.finishDateTime ?? .now
-    }
-    
-    
-    private var calcelToolbarItem: some ToolbarContent{
-        ToolbarItem(placement: .cancellationAction) {
-            Button("Cancel") {
-                activityToChange = nil
-            }
-        }
-    }
-    
-
-    @State var data = Activity.Data()
-    @State private var activityToChange: Activity?
-    
-    private func doneAction() {
-        guard let activity = activityToChange else { return }
-        store.updateActivity(activity, with: data)
-        activityToChange = nil
-        
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct ActivitiesView_Previews: PreviewProvider {
     static var previews: some View {
         ActivitiesView()
             .environmentObject(ActivityStore())

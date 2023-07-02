@@ -43,5 +43,9 @@ final class ActivityStore: ObservableObject {
         activities[index].update(from: data)
     }
     
+    func deleteActivity(_ activityToDelete: Activity) {
+        guard let index = activities.firstIndex(where: {$0.id == activityToDelete.id}) else { return }
+        activities.remove(at: index)
+    }
     
 }
