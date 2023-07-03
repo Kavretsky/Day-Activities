@@ -37,7 +37,7 @@ struct ActivityEditorView: View {
                 activityToChange = nil
             }
         } message: {
-            Text("Are you sure to delete activity?")
+            Text("Are you sure to delete this activity?")
         }
         .onAppear {
             data = activityToChange?.data ?? .init()
@@ -124,11 +124,11 @@ struct ActivityEditorView: View {
                 }
         } else {
             Button("Finish now") { }
-            .onTapGesture {
-                focus = false
-                finishTime = .now
-                data.finishDateTime = finishTime
-            }
+                .onTapGesture {
+                    focus = false
+                    finishTime = .now
+                    data.finishDateTime = finishTime
+                }
         }
         
     }

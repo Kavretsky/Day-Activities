@@ -25,7 +25,7 @@ struct NewActivityView: View {
                 newActivityForm
                 newActivityButton
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, 7)
             .padding(.leading, 12)
             .padding(.trailing, 10)
         }
@@ -49,14 +49,14 @@ struct NewActivityView: View {
             switch activityType {
             case .positive:
                 Text("Positive activity", comment: "TextField prompt for positive activity")
-                    .foregroundColor(Color(uiColor: .systemGray3))
+                    .foregroundColor(Color(uiColor: .systemGray2))
                     .font(.body)
                     .opacity(activityName.isEmpty ? 1 : 0)
                     .transition(.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity)))
                     
             case .negative:
                 Text("Negative activity", comment: "TextField prompt for negative activity")
-                    .foregroundColor(Color(uiColor: .systemGray3))
+                    .foregroundColor(Color(uiColor: .systemGray2))
                     .font(.body)
                     .opacity(activityName.isEmpty ? 1 : 0)
                     .transition(.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity)))
@@ -119,13 +119,6 @@ struct NewActivityView: View {
                 focusOnNameTextField = true
             }
         }
-    }
-    
-    private func dismissKeyboardGesture() -> some Gesture {
-        DragGesture()
-            .onChanged { _ in
-                focusOnNameTextField = false
-            }
     }
 }
 
