@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct ActivitiesView: View {
+    
     @EnvironmentObject var store: ActivityStore
+    @EnvironmentObject var typeStore: ActivityTypeStore
     private var date: Date = .now
-    @FocusState var focus: Bool
+    @State var focus: Bool = false
     @State private var activityToChange: Activity?
+//    @State var focus = false
     
     var body: some View {
         ZStack {
@@ -19,10 +22,13 @@ struct ActivitiesView: View {
             VStack(spacing: 0) {
                 activityList
                     .onTapGesture {
-                        focus = false
+//                        focus = false
+                        hideKeyboard()
                     }
                 NewActivityView()
-                    .focused($focus)
+//                    .focused($focus)
+                    
+//                    .focused($focus)
             }
         }
         
@@ -60,5 +66,6 @@ struct ActivitiesView_Previews: PreviewProvider {
     static var previews: some View {
         ActivitiesView()
             .environmentObject(ActivityStore())
+            .environmentObject(ActivityTypeStore())
     }
 }

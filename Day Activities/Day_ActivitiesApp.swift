@@ -9,11 +9,16 @@ import SwiftUI
 
 @main
 struct Day_ActivitiesApp: App {
-    @StateObject var store = ActivityStore()
+    @StateObject var activityStore = ActivityStore()
+    @StateObject var activityTypeStore = ActivityTypeStore()
+    
     var body: some Scene {
         WindowGroup {
             ActivitiesView()
-                .environmentObject(store)
+//            NewActivityView()
+                .environmentObject(activityStore)
+                .environmentObject(activityTypeStore)
+//            ContextMenuIssueVIew()
         }
     }
 }

@@ -20,6 +20,9 @@
 		76B229262A1CBC400046B5E7 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B229252A1CBC400046B5E7 /* UserSettings.swift */; };
 		76B2292C2A1D39EA0046B5E7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B2292B2A1D39EA0046B5E7 /* Extensions.swift */; };
 		76C5C2A22A24FC12005308C2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 76C5C2A42A24FC12005308C2 /* Localizable.strings */; };
+		76E980162A57415700F364C5 /* ContextMenuIssueVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E980152A57415700F364C5 /* ContextMenuIssueVIew.swift */; };
+		76E980182A5853AE00F364C5 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E980172A5853AE00F364C5 /* ViewExtensions.swift */; };
+		76F0704C2A534EB800BA28B2 /* ActivityTypeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F0704B2A534EB800BA28B2 /* ActivityTypeStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +41,9 @@
 		76B2292B2A1D39EA0046B5E7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		76C5C29F2A24EF44005308C2 /* Day-Activities-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Day-Activities-Info.plist"; sourceTree = SOURCE_ROOT; };
 		76C5C2A32A24FC12005308C2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		76E980152A57415700F364C5 /* ContextMenuIssueVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextMenuIssueVIew.swift; sourceTree = "<group>"; };
+		76E980172A5853AE00F364C5 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		76F0704B2A534EB800BA28B2 /* ActivityTypeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTypeStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,14 +79,17 @@
 				76C5C2A42A24FC12005308C2 /* Localizable.strings */,
 				766DB8852A195E8B0044A87B /* Day_ActivitiesApp.swift */,
 				766DB8872A195E8B0044A87B /* ActivitiesView.swift */,
-				76876BF92A27D4E400FAB868 /* ActivityEditorView.swift */,
 				76B229232A1BF5170046B5E7 /* NewActivityView.swift */,
+				76E980152A57415700F364C5 /* ContextMenuIssueVIew.swift */,
+				76876BF92A27D4E400FAB868 /* ActivityEditorView.swift */,
 				76B229252A1CBC400046B5E7 /* UserSettings.swift */,
 				765477962A1BBC9900F1EF3B /* CardView.swift */,
 				7600C6EF2A3F61130037AD44 /* ActivityType.swift */,
 				765477902A1B875100F1EF3B /* ActivityStore.swift */,
+				76F0704B2A534EB800BA28B2 /* ActivityTypeStore.swift */,
 				766084F52A2F5A58000046F1 /* Activity.swift */,
 				76B2292B2A1D39EA0046B5E7 /* Extensions.swift */,
+				76E980172A5853AE00F364C5 /* ViewExtensions.swift */,
 				766DB8892A195E8C0044A87B /* Assets.xcassets */,
 				76C5C29F2A24EF44005308C2 /* Day-Activities-Info.plist */,
 				766DB88B2A195E8C0044A87B /* Preview Content */,
@@ -170,12 +179,15 @@
 				765477912A1B875100F1EF3B /* ActivityStore.swift in Sources */,
 				76B229262A1CBC400046B5E7 /* UserSettings.swift in Sources */,
 				76876BFA2A27D4E400FAB868 /* ActivityEditorView.swift in Sources */,
+				76E980162A57415700F364C5 /* ContextMenuIssueVIew.swift in Sources */,
 				766DB8882A195E8B0044A87B /* ActivitiesView.swift in Sources */,
 				76B2292C2A1D39EA0046B5E7 /* Extensions.swift in Sources */,
 				765477972A1BBC9900F1EF3B /* CardView.swift in Sources */,
+				76E980182A5853AE00F364C5 /* ViewExtensions.swift in Sources */,
 				766084F62A2F5A58000046F1 /* Activity.swift in Sources */,
 				7600C6F02A3F61130037AD44 /* ActivityType.swift in Sources */,
 				76B229242A1BF5170046B5E7 /* NewActivityView.swift in Sources */,
+				76F0704C2A534EB800BA28B2 /* ActivityTypeStore.swift in Sources */,
 				766DB8862A195E8B0044A87B /* Day_ActivitiesApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

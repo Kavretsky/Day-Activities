@@ -8,60 +8,70 @@
 import SwiftUI
 
 struct NewActivityView: View {
-    @EnvironmentObject var store: ActivityStore
+    @EnvironmentObject var activityStore: ActivityStore
+    @EnvironmentObject var typeStore: ActivityTypeStore
     @State var activityName: String = ""
     @State var activityType: ActivityType = .positive
-    @FocusState var focusOnNameTextField: Bool
+    @FocusState var focusOnNameTextField
+//    @Binding var focus: Bool
+    
+    
+    @SceneStorage("NewActivityView.chosenTypeIndex")
+    private var chosenTypeIndex = 0
+    
+    private var chosenType: ActivityTypeStruct {
+        typeStore.activeTypes[chosenTypeIndex]
+    }
     
     private var activityNameValidation: Bool {
         !activityName.trimmingCharacters(in: .whitespaces).isEmpty
     }
     
     var body: some View {
-        ZStack(alignment: .top) {
-            Divider()
-                .ignoresSafeArea()
-            HStack {
-                newActivityForm
-                newActivityButton
+
+            ZStack(alignment: .top) {
+                Divider()
+                    .ignoresSafeArea()
+                HStack {
+                    newActivityForm
+                    newActivityButton
+                }
+                .padding(.vertical, 7)
+                .padding(.leading, 12)
+                .padding(.trailing, 10)
+                
             }
-            .padding(.vertical, 7)
-            .padding(.leading, 12)
-            .padding(.trailing, 10)
-        }
+//            .onChange(of: focus) { newValue in
+//                focusOnNameTextField = focus
+//            }
+//            .onChange(of: focusOnNameTextField) { newValue in
+//                focus = focusOnNameTextField
+//            }
     }
     
     private var newActivityForm: some View {
         HStack(spacing: 0) {
-            changeActivityTypeButton
-            activityNameTextField
-                .onTapGesture {
-                    focusOnNameTextField = true
-                }
+//            typeChooser(for: chosenType)
+            typeChooser2(for: chosenType)
+//                .id(125)
+
+                
+            activityNameTextField(for: chosenType)
+//                .onTapGesture {
+//                    focusOnNameTextField = true
+//                }
         }
         .background(Color(uiColor: .systemBackground), in: Capsule())
-        .clipped()
     }
     
-    @ViewBuilder
-    private var activityNameTextField: some View {
+    private func activityNameTextField(for type: ActivityTypeStruct) -> some View {
         ZStack(alignment: .leading) {
-            switch activityType {
-            case .positive:
-                Text("Positive activity", comment: "TextField prompt for positive activity")
-                    .foregroundColor(Color(uiColor: .systemGray2))
-                    .font(.body)
-                    .opacity(activityName.isEmpty ? 1 : 0)
-                    .transition(.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity)))
-                    
-            case .negative:
-                Text("Negative activity", comment: "TextField prompt for negative activity")
-                    .foregroundColor(Color(uiColor: .systemGray2))
-                    .font(.body)
-                    .opacity(activityName.isEmpty ? 1 : 0)
-                    .transition(.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity)))
-            }
-            
+            Text("\(type.description)...")
+                .foregroundColor(Color(uiColor: .systemGray2))
+                .font(.body)
+                .opacity(activityName.isEmpty ? 1 : 0)
+                .transition(rollTransition)
+                .id(type.id)
             TextField("", text: $activityName)
                 .focused($focusOnNameTextField)
         }
@@ -69,43 +79,120 @@ struct NewActivityView: View {
         .padding(.trailing, 10)
     }
     
-    private var changeActivityTypeButton: some View {
-        Button {
-            withAnimation(.easeInOut) {
-                changeActivityType()
-            }
-        } label: {
-            switch activityType {
-            case .positive:
-                Text(activityType.label)
-                    .font(.title2)
-                    .transition(.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity)))
-            case .negative:
-                Text(activityType.label)
-                    .font(.title2)
-                    .transition(.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity)))
-                    
-            }
-                
+    private func typeChooser2(for type: ActivityTypeStruct) -> some View {
+        ZStack {
+            Color(rgbaColor: type.backgroundRGBA)
+            Text(type.label)
+                .font(.title2)
+                .transition(rollTransition)
+                .id(type.id)
+//                .zIndex(1)
         }
-        .padding(.bottom, 1)
-        .frame(width: 45, height: 34)
-        .background(activityType.color)
+      
+        .frame(width: 45, height: 38)
+        .clipShape(Capsule())
+        .contentShape(.contextMenuPreview, Capsule())
+        .gesture(tapSimultaneouslyWithLongPress())
+        .contextMenu {
+            
+                
+                contextMenu
+            
+        }
+
+        
     }
     
-    private func changeActivityType() {
-        switch activityType {
-        case .positive:
-            activityType = .negative
-        case .negative:
-            activityType = .positive
+    @State var longPressStartDate: Date?
+    
+    private func tapSimultaneouslyWithLongPress() -> some Gesture {
+        let tap = TapGesture()
+            .onEnded {
+                let longPressDuration = longPressStartDate?.distance(to: .now) ?? 0
+                if longPressStartDate != nil && longPressDuration > 0.16 {
+                    print("onEnded tap. distance: \(longPressDuration)")
+                    if longPressDuration < 0.4 {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + longPressDuration * 1.7) {
+                            withAnimation {
+                                chosenTypeIndex = (chosenTypeIndex + 1) % typeStore.activeTypes.count
+                                longPressStartDate = nil
+                            }
+                        }
+                    }
+                    
+                } else {
+                    withAnimation {
+                        chosenTypeIndex = (chosenTypeIndex + 1) % typeStore.activeTypes.count
+                        longPressStartDate = nil
+                    }
+                }
+            }
+        
+        let longPress = LongPressGesture(minimumDuration: 0.42)
+            .onChanged { _ in
+                    longPressStartDate = .now
+            }
+//            .onEnded { _ in
+//                focusOnNameTextField = false
+//            }
+        return tap.simultaneously(with: longPress)
+    }
+    
+    private func typeChooser(for type: ActivityTypeStruct) -> some View {
+        Button {
+            withAnimation(.easeInOut) {
+                chosenTypeIndex = (chosenTypeIndex + 1) % typeStore.activeTypes.count
+            }
+        } label: {
+            Text(type.label)
+                .font(.title2)
+                .transition(rollTransition)
+                .id(type.id)
         }
+        .padding(.bottom, 1)
+        .padding(.horizontal, 9)
+        .frame(height: 38)
+        .background(Color(rgbaColor: chosenType.backgroundRGBA))
+        .clipShape(Capsule())
+        .contentShape(.contextMenuPreview, Capsule())
+        .contextMenu { contextMenu }
+    }
+    
+    @ViewBuilder
+    private var contextMenu: some View {
+        ForEach(typeStore.activeTypes) { type in
+            let index = typeStore.activeTypes.index(matching: type)
+            Button {
+                if let index = typeStore.activeTypes.index(matching: type) {
+//                    focusOnNameTextField = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation(.easeInOut) {
+                            chosenTypeIndex = index
+                        }
+                        
+                    }
+                }
+            } label: {
+                if chosenTypeIndex == index {
+                    Label(type.label, systemImage: "checkmark")
+                } else {
+                    Text(type.label)
+                }
+                
+            }
+
+            
+        }
+    }
+    
+    private var rollTransition: AnyTransition {
+        AnyTransition.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity))
     }
     
     private var newActivityButton: some View {
         Button {
             withAnimation {
-                store.addActivity(name: activityName.trimmingCharacters(in: .whitespaces), type: activityType)
+                activityStore.addActivity(name: activityName.trimmingCharacters(in: .whitespaces), type: activityType)
                 activityName = ""
             }
         } label: {
@@ -125,6 +212,7 @@ struct NewActivityView: View {
 struct NewActivityView_Previews: PreviewProvider {
     static var previews: some View {
         NewActivityView()
-            .previewLayout(.sizeThatFits)
+//            .previewLayout(.sizeThatFits)
+            .environmentObject(ActivityTypeStore())
     }
 }
