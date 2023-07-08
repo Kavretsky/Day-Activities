@@ -10,14 +10,14 @@ import Foundation
 struct Activity: Identifiable, Hashable {
     let id: UUID
     var name: String
-    var type: ActivityType
+    var typeID: UUID
     var startDateTime: Date
     var finishDateTime: Date?
     
-    init(id: UUID = UUID(), name: String, type: ActivityType, startDateTime: Date, finishDateTime: Date? = nil) {
+    init(id: UUID = UUID(), name: String, typeID: UUID, startDateTime: Date, finishDateTime: Date? = nil) {
         self.id = id
         self.name = name
-        self.type = type
+        self.typeID = typeID
         self.startDateTime = startDateTime
         self.finishDateTime = finishDateTime
     }
@@ -26,18 +26,18 @@ struct Activity: Identifiable, Hashable {
 extension Activity {
     struct Data {
         var name = ""
-        var type = ActivityType.positive
+        var typeID = UUID()
         var startDateTime = Date.now
         var finishDateTime: Date? = nil
     }
     
     var data: Data {
-        Data(name: name, type: type, startDateTime: startDateTime, finishDateTime: finishDateTime)
+        Data(name: name, typeID: typeID, startDateTime: startDateTime, finishDateTime: finishDateTime)
     }
     
     mutating func update(from data: Data) {
         name = data.name
-        type = data.type
+        typeID = data.typeID
         startDateTime = data.startDateTime
         finishDateTime = data.finishDateTime
     }
@@ -45,7 +45,7 @@ extension Activity {
     init(data: Data) {
         id = UUID()
         name = data.name
-        type = data.type
+        typeID = data.typeID
         startDateTime = data.startDateTime
         finishDateTime = data.finishDateTime
     }

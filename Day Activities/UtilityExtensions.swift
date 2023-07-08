@@ -1,5 +1,5 @@
 //
-//  Extensions.swift
+//  UtilityExtensions.swift
 //  Day Activities
 //
 //  Created by Nikolay Kavretsky on 23.05.2023.
@@ -66,6 +66,16 @@ extension RangeReplaceableCollection where Element: Identifiable {
             if let index = index(matching: element) {
                 replaceSubrange(index...index, with: [newValue])
             }
+        }
+    }
+}
+
+extension Character {
+    var isEmoji: Bool {
+        if let firstScalar = unicodeScalars.first, firstScalar.properties.isEmoji {
+            return (firstScalar.value >= 0x238d || unicodeScalars.count > 1)
+        } else {
+            return false
         }
     }
 }

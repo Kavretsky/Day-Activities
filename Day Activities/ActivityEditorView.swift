@@ -10,7 +10,9 @@ import SwiftUI
 struct ActivityEditorView: View {
     @Binding var activityToChange: Activity?
     @State private var data: Activity.Data = .init()
-    @EnvironmentObject var store: ActivityStore
+    @EnvironmentObject var activityStore: ActivityStore
+    @EnvironmentObject var typeStore: TypeStore
+    
     
     init(activityToChange: Binding<Activity?>) {
         _activityToChange = activityToChange
@@ -74,27 +76,27 @@ struct ActivityEditorView: View {
     
     private var typeSelection: some View {
         HStack(spacing: 3) {
-            ForEach(ActivityType.allCases, id: \.self) { type in
+            ForEach(typeStore.activeTypes) { type in
                 typeView(type)
-                    .zIndex(type == data.type ? 0 : 1)
+                    .zIndex(type.id == data.typeID ? 0 : 1)
                     .onTapGesture {
                         withAnimation {
-                            data.type = type
+                            data.typeID = type.id
                         }
                     }
-                    .animation(Animation.interactiveSpring(), value: data.type)
+                    .animation(.interactiveSpring(response: 0.3, dampingFraction: 0.9, blendDuration: 1), value: data.typeID)
             }
         }
     }
     
     private func typeView(_ type: ActivityType) -> some View {
-        Text(type.label)
+        Text(type.emoji)
             .font(.headline)
             .padding(7)
             .background {
-                if type == data.type {
+                if type.id == data.typeID {
                     Capsule()
-                        .fill(type.color)
+                        .fill(Color(rgbaColor: type.backgroundRGBA))
                         .offset(x: 0)
                         .matchedGeometryEffect(id: "typeBackgroundID", in: typeNamespaceID)
                 }
@@ -151,7 +153,7 @@ struct ActivityEditorView: View {
     
     private func doneAction() {
         guard let activity = activityToChange else { return }
-        store.updateActivity(activity, with: data)
+        activityStore.updateActivity(activity, with: data)
         activityToChange = nil
         
     }
@@ -179,7 +181,7 @@ struct ActivityEditorView: View {
     
     private func deleteActivity(_ activity: Activity?) {
         guard let activity = activity else { return }
-        store.deleteActivity(activity)
+        activityStore.deleteActivity(activity)
         activityToChange = nil
     }
 }
@@ -188,5 +190,7 @@ struct ActivityEditorView_Previews: PreviewProvider {
     static var previews: some View {
         let store = ActivityStore()
         ActivityEditorView(activityToChange: .constant(store.activities(for: .now).last!))
+            .environmentObject(store)
+            .environmentObject(TypeStore())
     }
 }

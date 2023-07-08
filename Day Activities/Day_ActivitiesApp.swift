@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct Day_ActivitiesApp: App {
     @StateObject var activityStore = ActivityStore()
-    @StateObject var activityTypeStore = ActivityTypeStore()
+    @StateObject var activityTypeStore = TypeStore()
     
     var body: some Scene {
         WindowGroup {

@@ -9,26 +9,18 @@ import SwiftUI
 
 struct NewActivityView: View {
     @EnvironmentObject var activityStore: ActivityStore
-    @EnvironmentObject var typeStore: ActivityTypeStore
-    @State var activityName: String = ""
-    @State var activityType: ActivityType = .positive
+    @EnvironmentObject var typeStore: TypeStore
+    @State var description: String = ""
     @FocusState var focusOnNameTextField
-//    @Binding var focus: Bool
-    
     
     @SceneStorage("NewActivityView.chosenTypeIndex")
     private var chosenTypeIndex = 0
     
-    private var chosenType: ActivityTypeStruct {
+    private var chosenType: ActivityType {
         typeStore.activeTypes[chosenTypeIndex]
     }
     
-    private var activityNameValidation: Bool {
-        !activityName.trimmingCharacters(in: .whitespaces).isEmpty
-    }
-    
     var body: some View {
-
             ZStack(alignment: .top) {
                 Divider()
                     .ignoresSafeArea()
@@ -39,68 +31,46 @@ struct NewActivityView: View {
                 .padding(.vertical, 7)
                 .padding(.leading, 12)
                 .padding(.trailing, 10)
-                
             }
-//            .onChange(of: focus) { newValue in
-//                focusOnNameTextField = focus
-//            }
-//            .onChange(of: focusOnNameTextField) { newValue in
-//                focus = focusOnNameTextField
-//            }
     }
     
     private var newActivityForm: some View {
         HStack(spacing: 0) {
-//            typeChooser(for: chosenType)
-            typeChooser2(for: chosenType)
-//                .id(125)
-
-                
+            typeChooser(for: chosenType)
             activityNameTextField(for: chosenType)
-//                .onTapGesture {
-//                    focusOnNameTextField = true
-//                }
         }
         .background(Color(uiColor: .systemBackground), in: Capsule())
     }
     
-    private func activityNameTextField(for type: ActivityTypeStruct) -> some View {
+    private func activityNameTextField(for type: ActivityType) -> some View {
         ZStack(alignment: .leading) {
             Text("\(type.description)...")
                 .foregroundColor(Color(uiColor: .systemGray2))
                 .font(.body)
-                .opacity(activityName.isEmpty ? 1 : 0)
+                .opacity(description.isEmpty ? 1 : 0)
                 .transition(rollTransition)
                 .id(type.id)
-            TextField("", text: $activityName)
+            TextField("", text: $description)
                 .focused($focusOnNameTextField)
         }
         .padding(.leading, 8)
         .padding(.trailing, 10)
     }
     
-    private func typeChooser2(for type: ActivityTypeStruct) -> some View {
+    private func typeChooser(for type: ActivityType) -> some View {
         ZStack {
             Color(rgbaColor: type.backgroundRGBA)
-            Text(type.label)
+            Text(type.emoji)
                 .font(.title2)
                 .transition(rollTransition)
                 .id(type.id)
-//                .zIndex(1)
+                .zIndex(1)
         }
-      
         .frame(width: 45, height: 38)
         .clipShape(Capsule())
         .contentShape(.contextMenuPreview, Capsule())
         .gesture(tapSimultaneouslyWithLongPress())
-        .contextMenu {
-            
-                
-                contextMenu
-            
-        }
-
-        
+        .contextMenu { contextMenu }
     }
     
     @State var longPressStartDate: Date?
@@ -132,30 +102,8 @@ struct NewActivityView: View {
             .onChanged { _ in
                     longPressStartDate = .now
             }
-//            .onEnded { _ in
-//                focusOnNameTextField = false
-//            }
+
         return tap.simultaneously(with: longPress)
-    }
-    
-    private func typeChooser(for type: ActivityTypeStruct) -> some View {
-        Button {
-            withAnimation(.easeInOut) {
-                chosenTypeIndex = (chosenTypeIndex + 1) % typeStore.activeTypes.count
-            }
-        } label: {
-            Text(type.label)
-                .font(.title2)
-                .transition(rollTransition)
-                .id(type.id)
-        }
-        .padding(.bottom, 1)
-        .padding(.horizontal, 9)
-        .frame(height: 38)
-        .background(Color(rgbaColor: chosenType.backgroundRGBA))
-        .clipShape(Capsule())
-        .contentShape(.contextMenuPreview, Capsule())
-        .contextMenu { contextMenu }
     }
     
     @ViewBuilder
@@ -174,9 +122,9 @@ struct NewActivityView: View {
                 }
             } label: {
                 if chosenTypeIndex == index {
-                    Label(type.label, systemImage: "checkmark")
+                    Label(type.emoji, systemImage: "checkmark")
                 } else {
-                    Text(type.label)
+                    Text(type.emoji)
                 }
                 
             }
@@ -192,8 +140,8 @@ struct NewActivityView: View {
     private var newActivityButton: some View {
         Button {
             withAnimation {
-                activityStore.addActivity(name: activityName.trimmingCharacters(in: .whitespaces), type: activityType)
-                activityName = ""
+                activityStore.addActivity(name: description.trimmingCharacters(in: .whitespaces), typeID: chosenType.id)
+                description = ""
             }
         } label: {
             Image(systemName: "plus.circle.fill")
@@ -207,12 +155,16 @@ struct NewActivityView: View {
             }
         }
     }
+    
+    private var activityNameValidation: Bool {
+        !description.trimmingCharacters(in: .whitespaces).isEmpty
+    }
 }
 
 struct NewActivityView_Previews: PreviewProvider {
     static var previews: some View {
         NewActivityView()
 //            .previewLayout(.sizeThatFits)
-            .environmentObject(ActivityTypeStore())
+            .environmentObject(TypeStore())
     }
 }

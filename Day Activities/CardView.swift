@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CardView: View {
+    @EnvironmentObject var typesStore: TypeStore
     let activity: Activity
     
     var body: some View {
@@ -19,7 +20,7 @@ struct CardView: View {
                     .font(.caption2)
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(activity.type.label)
+                Text(typesStore.type(withID: activity.typeID)?.emoji ?? "⚠️")
                     .font(.subheadline)
             }
         }
@@ -47,6 +48,8 @@ struct CardView_Previews: PreviewProvider {
     static var store = ActivityStore()
     static var previews: some View {
         CardView(activity: store.activities(for: .now).first!)
+            .environmentObject(ActivityStore())
+            .environmentObject(TypeStore())
 //            .scaledToFit()
     }
 }
