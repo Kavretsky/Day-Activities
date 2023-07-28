@@ -8,20 +8,6 @@
 import Foundation
 import SwiftUI
 
-struct ActivityType: Identifiable {
-    let id: UUID = UUID()
-    var emoji: String
-    var isActive: Bool = true
-    var backgroundRGBA: RGBAColor
-    var description: String
-    
-    fileprivate init(id: UUID = UUID(), emoji: String, backgroundRGBA: RGBAColor, description: String) {
-        self.emoji = emoji
-        self.backgroundRGBA = backgroundRGBA
-        self.description = description
-    }
-}
-
 class TypeStore: ObservableObject {
     @Published private var types = [ActivityType]()
     
@@ -45,14 +31,23 @@ class TypeStore: ObservableObject {
         types.filter { $0.isActive }
     }
     
+    var typesToDelete: [ActivityType] {
+        types.filter { !$0.isActive }
+    }
+    
     func type(withID id: UUID) -> ActivityType? {
         types.first(where: { $0.id == id })
     }
     
+    func restore(_ type: ActivityType) {
+        if let index = types.firstIndex(of: type) {
+            types[index].isActive = true
+        }
+    }
+    
     func addType(emoji: String, background: Color, description: String) {
         guard !emoji.isEmpty,
-              emoji.first!.isEmoji,
-              !description.isEmpty
+              emoji.first!.isEmoji
         else { return }
         
         let background = RGBAColor(color: background)
@@ -60,9 +55,23 @@ class TypeStore: ObservableObject {
         types.append(ActivityType(emoji: shortLabel, backgroundRGBA: background, description: description))
     }
     
+    @discardableResult
+    func addType(with data: ActivityType.Data) -> ActivityType? {
+        guard !data.emoji.isEmpty, data.emoji.first!.isEmoji else { return nil }
+        
+        types.append(ActivityType(data: data))
+        return activeTypes.last
+    }
+    
     func removeType(_ type: ActivityType) {
+        guard activeTypes.count > 2 else { return }
         if let index = types.firstIndex(where: {$0.id == type.id}) {
             types[index].isActive = false
         }
+    }
+    
+    func updateType(_ type: ActivityType, with data: ActivityType.Data) {
+        guard !data.emoji.isEmpty else { return }
+        types[type].update(from: data)
     }
 }

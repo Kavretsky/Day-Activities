@@ -15,10 +15,9 @@ struct Day_ActivitiesApp: App {
     var body: some Scene {
         WindowGroup {
             ActivitiesView()
-//            NewActivityView()
+//            TestView()
                 .environmentObject(activityStore)
                 .environmentObject(activityTypeStore)
-//            ContextMenuIssueVIew()
         }
     }
 }

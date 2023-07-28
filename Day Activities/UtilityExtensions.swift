@@ -72,10 +72,21 @@ extension RangeReplaceableCollection where Element: Identifiable {
 
 extension Character {
     var isEmoji: Bool {
-        if let firstScalar = unicodeScalars.first, firstScalar.properties.isEmoji {
-            return (firstScalar.value >= 0x238d || unicodeScalars.count > 1)
-        } else {
-            return false
-        }
+        return String(self).containsEmoji
     }
 }
+
+extension String {
+    var containsEmoji: Bool {
+        let emojiPattern = #"\p{Extended_Pictographic}"#
+        let range = NSRange(location: 0, length: utf16.count)
+        
+        if let regex = try? NSRegularExpression(pattern: emojiPattern) {
+            return regex.firstMatch(in: self, options: [], range: range) != nil
+        }
+        
+        return false
+    }
+}
+
+

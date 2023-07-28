@@ -10,7 +10,7 @@ import SwiftUI
 struct NewActivityView: View {
     @EnvironmentObject var activityStore: ActivityStore
     @EnvironmentObject var typeStore: TypeStore
-    @State var description: String = ""
+    @State var name: String = ""
     @FocusState var focusOnNameTextField
     
     @SceneStorage("NewActivityView.chosenTypeIndex")
@@ -40,6 +40,7 @@ struct NewActivityView: View {
             activityNameTextField(for: chosenType)
         }
         .background(Color(uiColor: .systemBackground), in: Capsule())
+        .clipped()
     }
     
     private func activityNameTextField(for type: ActivityType) -> some View {
@@ -47,10 +48,10 @@ struct NewActivityView: View {
             Text("\(type.description)...")
                 .foregroundColor(Color(uiColor: .systemGray2))
                 .font(.body)
-                .opacity(description.isEmpty ? 1 : 0)
+                .opacity(name.isEmpty ? 1 : 0)
                 .transition(rollTransition)
                 .id(type.id)
-            TextField("", text: $description)
+            TextField("", text: $name)
                 .focused($focusOnNameTextField)
         }
         .padding(.leading, 8)
@@ -71,6 +72,9 @@ struct NewActivityView: View {
         .contentShape(.contextMenuPreview, Capsule())
         .gesture(tapSimultaneouslyWithLongPress())
         .contextMenu { contextMenu }
+        .sheet(isPresented: $isManagingTypes) {
+            TypeManagerView()
+        }
     }
     
     @State var longPressStartDate: Date?
@@ -108,13 +112,18 @@ struct NewActivityView: View {
     
     @ViewBuilder
     private var contextMenu: some View {
+        Button {
+            isManagingTypes = true
+        } label: {
+            Label("Manage", systemImage: "slider.vertical.3")
+        }
+        Divider()
         ForEach(typeStore.activeTypes) { type in
             let index = typeStore.activeTypes.index(matching: type)
             Button {
                 if let index = typeStore.activeTypes.index(matching: type) {
-//                    focusOnNameTextField = false
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        withAnimation(.easeInOut) {
+                        withAnimation {
                             chosenTypeIndex = index
                         }
                         
@@ -128,10 +137,12 @@ struct NewActivityView: View {
                 }
                 
             }
-
-            
         }
+        
+
     }
+    
+    @State private var isManagingTypes = false
     
     private var rollTransition: AnyTransition {
         AnyTransition.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity), removal: .move(edge: .top).combined(with: .opacity))
@@ -140,8 +151,8 @@ struct NewActivityView: View {
     private var newActivityButton: some View {
         Button {
             withAnimation {
-                activityStore.addActivity(name: description.trimmingCharacters(in: .whitespaces), typeID: chosenType.id)
-                description = ""
+                activityStore.addActivity(name: name.trimmingCharacters(in: .whitespaces), typeID: chosenType.id)
+                name = ""
             }
         } label: {
             Image(systemName: "plus.circle.fill")
@@ -157,7 +168,7 @@ struct NewActivityView: View {
     }
     
     private var activityNameValidation: Bool {
-        !description.trimmingCharacters(in: .whitespaces).isEmpty
+        !name.trimmingCharacters(in: .whitespaces).isEmpty
     }
 }
 
