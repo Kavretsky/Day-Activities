@@ -39,6 +39,14 @@ extension Date {
     func isSameDay(with comparingDate: Date) -> Bool {
         self.formatted(.dateTime.day().month().year()) == comparingDate.formatted(.dateTime.day().month().year())
     }
+    
+    static func endOfDay() -> Date {
+        Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: Date())!
+    }
+    
+    static func startOfDay() -> Date {
+        return Calendar.current.startOfDay(for: Date())
+    }
 }
 
 extension Collection where Element: Identifiable {

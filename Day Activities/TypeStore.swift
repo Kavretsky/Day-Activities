@@ -35,8 +35,8 @@ class TypeStore: ObservableObject {
         types.filter { !$0.isActive }
     }
     
-    func type(withID id: UUID) -> ActivityType? {
-        types.first(where: { $0.id == id })
+    func type(withID id: String) -> ActivityType {
+        types.first(where: { $0.id == id }) ?? types.first(where: { $0.isActive })!
     }
     
     func restore(_ type: ActivityType) {

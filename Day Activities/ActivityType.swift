@@ -8,7 +8,7 @@
 import Foundation
 
 struct ActivityType: Identifiable, Hashable {
-    let id: UUID = UUID()
+    let id: String = UUID().uuidString
     var emoji: String
     var isActive: Bool = true
     var backgroundRGBA: RGBAColor

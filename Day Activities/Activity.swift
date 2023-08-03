@@ -10,11 +10,15 @@ import Foundation
 struct Activity: Identifiable, Hashable {
     let id: UUID
     var name: String
-    var typeID: UUID
+    var typeID: String
     var startDateTime: Date
     var finishDateTime: Date?
     
-    init(id: UUID = UUID(), name: String, typeID: UUID, startDateTime: Date, finishDateTime: Date? = nil) {
+    var duration: Double {
+        DateInterval(start: startDateTime, end: finishDateTime ?? Date.now).duration
+    }
+    
+    init(id: UUID = UUID(), name: String, typeID: String, startDateTime: Date, finishDateTime: Date? = nil) {
         self.id = id
         self.name = name
         self.typeID = typeID
@@ -26,7 +30,7 @@ struct Activity: Identifiable, Hashable {
 extension Activity {
     struct Data {
         var name = ""
-        var typeID = UUID()
+        var typeID = UUID().uuidString
         var startDateTime = Date.now
         var finishDateTime: Date? = nil
     }
