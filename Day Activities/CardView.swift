@@ -20,7 +20,7 @@ struct CardView: View {
                     .font(.caption2)
                     .foregroundColor(.secondary)
                 Spacer()
-                Text(typesStore.type(withID: activity.typeID)?.emoji ?? "⚠️")
+                Text(typesStore.type(withID: activity.typeID).emoji)
                     .font(.subheadline)
             }
         }

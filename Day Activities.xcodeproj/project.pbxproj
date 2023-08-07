@@ -10,8 +10,10 @@
 		7609181D2A681518009AE8CC /* TypeManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7609181C2A681518009AE8CC /* TypeManagerView.swift */; };
 		7609181F2A683386009AE8CC /* TypeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7609181E2A683386009AE8CC /* TypeEditorView.swift */; };
 		760918232A6FF9E9009AE8CC /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760918222A6FF9E9009AE8CC /* ActivityType.swift */; };
+		760C9D762A784103001D0860 /* DayActivityChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760C9D752A784103001D0860 /* DayActivityChart.swift */; };
 		765477912A1B875100F1EF3B /* ActivityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765477902A1B875100F1EF3B /* ActivityStore.swift */; };
 		765477972A1BBC9900F1EF3B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765477962A1BBC9900F1EF3B /* CardView.swift */; };
+		765E37D62A794FAF00BC7B8E /* ChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765E37D52A794FAF00BC7B8E /* ChartViewModel.swift */; };
 		766084F62A2F5A58000046F1 /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766084F52A2F5A58000046F1 /* Activity.swift */; };
 		766DB8862A195E8B0044A87B /* Day_ActivitiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DB8852A195E8B0044A87B /* Day_ActivitiesApp.swift */; };
 		766DB8882A195E8B0044A87B /* ActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766DB8872A195E8B0044A87B /* ActivitiesView.swift */; };
@@ -31,8 +33,10 @@
 		7609181C2A681518009AE8CC /* TypeManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeManagerView.swift; sourceTree = "<group>"; };
 		7609181E2A683386009AE8CC /* TypeEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeEditorView.swift; sourceTree = "<group>"; };
 		760918222A6FF9E9009AE8CC /* ActivityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityType.swift; sourceTree = "<group>"; };
+		760C9D752A784103001D0860 /* DayActivityChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayActivityChart.swift; sourceTree = "<group>"; };
 		765477902A1B875100F1EF3B /* ActivityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityStore.swift; sourceTree = "<group>"; };
 		765477962A1BBC9900F1EF3B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		765E37D52A794FAF00BC7B8E /* ChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewModel.swift; sourceTree = "<group>"; };
 		766084F52A2F5A58000046F1 /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		766DB8822A195E8B0044A87B /* Day Activities.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Day Activities.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766DB8852A195E8B0044A87B /* Day_ActivitiesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day_ActivitiesApp.swift; sourceTree = "<group>"; };
@@ -92,6 +96,8 @@
 				76B229252A1CBC400046B5E7 /* UserSettings.swift */,
 				765477962A1BBC9900F1EF3B /* CardView.swift */,
 				765477902A1B875100F1EF3B /* ActivityStore.swift */,
+				760C9D752A784103001D0860 /* DayActivityChart.swift */,
+				765E37D52A794FAF00BC7B8E /* ChartViewModel.swift */,
 				76F0704B2A534EB800BA28B2 /* TypeStore.swift */,
 				760918222A6FF9E9009AE8CC /* ActivityType.swift */,
 				766084F52A2F5A58000046F1 /* Activity.swift */,
@@ -184,6 +190,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				765E37D62A794FAF00BC7B8E /* ChartViewModel.swift in Sources */,
 				760918232A6FF9E9009AE8CC /* ActivityType.swift in Sources */,
 				765477912A1B875100F1EF3B /* ActivityStore.swift in Sources */,
 				76B229262A1CBC400046B5E7 /* UserSettings.swift in Sources */,
@@ -198,6 +205,7 @@
 				76B229242A1BF5170046B5E7 /* NewActivityView.swift in Sources */,
 				7609181D2A681518009AE8CC /* TypeManagerView.swift in Sources */,
 				76F0704C2A534EB800BA28B2 /* TypeStore.swift in Sources */,
+				760C9D762A784103001D0860 /* DayActivityChart.swift in Sources */,
 				766DB8862A195E8B0044A87B /* Day_ActivitiesApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

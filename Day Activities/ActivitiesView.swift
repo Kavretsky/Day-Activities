@@ -10,10 +10,14 @@ import SwiftUI
 struct ActivitiesView: View {
     
     @EnvironmentObject var store: ActivityStore
-//    @EnvironmentObject var typeStore: TypeStore
+    @EnvironmentObject var typeStore: TypeStore
     private var date: Date = .now
     @State var focus: Bool = false
     @State private var activityToChange: Activity?
+    
+    private var activities: [Activity] {
+        return store.activities(for: date)
+    }
     
     var body: some View {
         ZStack {
@@ -36,8 +40,12 @@ struct ActivitiesView: View {
     
     private var activityList: some View {
         List {
+            if !activities.isEmpty {
+                DayActivityChart(data: activities)
+                    .padding(.vertical, 8)
+            }
             Section {
-                ForEach(store.activities(for: date)) { activity in
+                ForEach(activities) { activity in
                     CardView(activity: activity)
                         .onTapGesture {
                             activityToChange = activity

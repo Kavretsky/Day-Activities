@@ -8,13 +8,14 @@
 import Foundation
 
 struct ActivityType: Identifiable, Hashable {
-    let id: UUID = UUID()
+    let id: String
     var emoji: String
     var isActive: Bool = true
     var backgroundRGBA: RGBAColor
     var description: String
     
-    init(emoji: String, backgroundRGBA: RGBAColor, description: String) {
+    init(id: String = UUID().uuidString, emoji: String, backgroundRGBA: RGBAColor, description: String) {
+        self.id = id
         self.emoji = emoji
         self.backgroundRGBA = backgroundRGBA
         self.description = description
@@ -42,6 +43,7 @@ extension ActivityType {
         emoji = data.emoji
         backgroundRGBA = data.backgroundRGBA
         description = data.description
+        id = UUID().uuidString
     }
     
     private static func randomEmoji() -> String {

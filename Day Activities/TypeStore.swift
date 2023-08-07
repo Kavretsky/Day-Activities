@@ -21,8 +21,8 @@ class TypeStore: ObservableObject {
     }
     
     private func addDefaultTypes() {
-        addType(emoji: "👍", background: Color(rgbaColor: RGBAColor(red: 182/255, green: 255/255, blue: 137/255, alpha: 1)), description: "Positive activity")
-        addType(emoji: "😡", background: Color(rgbaColor: RGBAColor(red: 255/255, green: 194/255, blue: 137/255, alpha: 1)), description: "Negative activity")
+        addType(id: "4300197B-201F-42CC-AB52-67186E41F668", emoji: "👍", background: Color(rgbaColor: RGBAColor(red: 182/255, green: 255/255, blue: 137/255, alpha: 1)), description: "Positive activity")
+        addType(id: "C286CACB-51A6-4FD8-87E1-6900C8ECC1A9", emoji: "😡", background: Color(rgbaColor: RGBAColor(red: 255/255, green: 194/255, blue: 137/255, alpha: 1)), description: "Negative activity")
         addType(emoji: "😇", background: Color(rgbaColor: RGBAColor(red: 115/255, green: 14/255, blue: 137/255, alpha: 1)), description: "Rest activity")
         addType(emoji: "🥰", background: Color(rgbaColor: RGBAColor(red: 15/255, green: 140/255, blue: 17/255, alpha: 1)), description: "Rest activity")
     }
@@ -35,8 +35,8 @@ class TypeStore: ObservableObject {
         types.filter { !$0.isActive }
     }
     
-    func type(withID id: UUID) -> ActivityType? {
-        types.first(where: { $0.id == id })
+    func type(withID id: String) -> ActivityType {
+        types.first(where: { $0.id == id }) ?? types.first(where: { $0.isActive })!
     }
     
     func restore(_ type: ActivityType) {
@@ -45,14 +45,14 @@ class TypeStore: ObservableObject {
         }
     }
     
-    func addType(emoji: String, background: Color, description: String) {
+    func addType(id: String = UUID().uuidString,emoji: String, background: Color, description: String) {
         guard !emoji.isEmpty,
               emoji.first!.isEmoji
         else { return }
         
         let background = RGBAColor(color: background)
         let shortLabel = String("\(emoji.first!)")
-        types.append(ActivityType(emoji: shortLabel, backgroundRGBA: background, description: description))
+        types.append(ActivityType(id: id, emoji: shortLabel, backgroundRGBA: background, description: description))
     }
     
     @discardableResult

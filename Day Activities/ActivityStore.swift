@@ -18,12 +18,12 @@ final class ActivityStore: ObservableObject {
     }
     
     init() {
-        addActivity(name: "Morning walking with dog", typeID: UUID())
-        addActivity(name: "Working on new project", typeID: UUID())
+        addActivity(name: "Morning walking with dog", typeID: "4300197B-201F-42CC-AB52-67186E41F668")
+        addActivity(name: "Working on new project", typeID: "C286CACB-51A6-4FD8-87E1-6900C8ECC1A9")
     }
     
     //MARK: Intents
-    func addActivity(name: String, typeID: UUID) {
+    func addActivity(name: String, typeID: String) {
         if let index = activities.firstIndex(where: { $0.finishDateTime == nil }) {
             activities[index].finishDateTime = .now
         }
