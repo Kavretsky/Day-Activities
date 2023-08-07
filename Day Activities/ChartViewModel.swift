@@ -9,9 +9,9 @@ import Foundation
 
 struct ChartData: Identifiable {
     let id = UUID()
-    var type: String
-    var startTime: Date
-    var duration: Int
+    let typeID: String
+    let startTime: Date
+    let duration: Double
 }
 
 class ChartViewModel {
@@ -21,11 +21,11 @@ class ChartViewModel {
         var result = [ChartData]()
         var chartDataStartTime = activity.startDateTime
         var activityStartMinute = Int(activity.startDateTime.formatted(.dateTime.minute()))!
-        var activityDuration = Int(DateInterval(start: activity.startDateTime, end: activity.finishDateTime ?? .now.advanced(by: 60)).duration) / 60
+        var activityDuration = DateInterval(start: activity.startDateTime, end: activity.finishDateTime ?? .now.advanced(by: 60)).duration / 60
         
         repeat {
-            let chartDataDuration = min(60 - activityStartMinute, activityDuration)
-            let chartData = ChartData(type: activity.typeID, startTime: chartDataStartTime, duration: chartDataDuration)
+            let chartDataDuration = min(60 - Double(activityStartMinute), activityDuration)
+            let chartData = ChartData(typeID: activity.typeID, startTime: chartDataStartTime, duration: chartDataDuration)
             result.append(chartData)
             activityDuration -= chartDataDuration
             chartDataStartTime = chartDataStartTime.addingTimeInterval(TimeInterval(chartDataDuration * 60))
@@ -33,6 +33,11 @@ class ChartViewModel {
         } while activityDuration > 0
         
         return result
+    }
+    
+    var usedTypes: [String] {
+        print(rawData.map( { $0.typeID}).uniqued())
+        return rawData.map( { $0.typeID}).uniqued()
     }
     
     var chartData: [ChartData] {

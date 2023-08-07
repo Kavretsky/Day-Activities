@@ -10,7 +10,7 @@ import SwiftUI
 struct ActivitiesView: View {
     
     @EnvironmentObject var store: ActivityStore
-//    @EnvironmentObject var typeStore: TypeStore
+    @EnvironmentObject var typeStore: TypeStore
     private var date: Date = .now
     @State var focus: Bool = false
     @State private var activityToChange: Activity?
@@ -42,6 +42,7 @@ struct ActivitiesView: View {
         List {
             if !activities.isEmpty {
                 DayActivityChart(data: activities)
+                    .padding(.vertical, 8)
             }
             Section {
                 ForEach(activities) { activity in

@@ -18,8 +18,8 @@ final class ActivityStore: ObservableObject {
     }
     
     init() {
-        addActivity(name: "Morning walking with dog", typeID: UUID().uuidString)
-        addActivity(name: "Working on new project", typeID: UUID().uuidString)
+        addActivity(name: "Morning walking with dog", typeID: "4300197B-201F-42CC-AB52-67186E41F668")
+        addActivity(name: "Working on new project", typeID: "C286CACB-51A6-4FD8-87E1-6900C8ECC1A9")
     }
     
     //MARK: Intents

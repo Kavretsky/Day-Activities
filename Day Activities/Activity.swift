@@ -8,7 +8,7 @@
 import Foundation
 
 struct Activity: Identifiable, Hashable {
-    let id: UUID
+    let id: String
     var name: String
     var typeID: String
     var startDateTime: Date
@@ -18,7 +18,7 @@ struct Activity: Identifiable, Hashable {
         DateInterval(start: startDateTime, end: finishDateTime ?? Date.now).duration
     }
     
-    init(id: UUID = UUID(), name: String, typeID: String, startDateTime: Date, finishDateTime: Date? = nil) {
+    init(id: String = UUID().uuidString, name: String, typeID: String, startDateTime: Date, finishDateTime: Date? = nil) {
         self.id = id
         self.name = name
         self.typeID = typeID
@@ -47,7 +47,7 @@ extension Activity {
     }
     
     init(data: Data) {
-        id = UUID()
+        id = UUID().uuidString
         name = data.name
         typeID = data.typeID
         startDateTime = data.startDateTime
